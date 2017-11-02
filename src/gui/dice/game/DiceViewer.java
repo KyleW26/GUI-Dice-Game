@@ -21,6 +21,8 @@ public class DiceViewer
         frame.getContentPane().setPreferredSize(new Dimension(600,300));
         frame.getContentPane().add(dice);
         
+        JButton button = new JButton("Throw Dice");
+        
         frame.setVisible(true);
     }
     
