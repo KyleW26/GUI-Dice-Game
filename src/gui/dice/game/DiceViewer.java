@@ -15,9 +15,13 @@ public class DiceViewer {
     public static int die1Value;
     public static int die2Value;
 
+    public static int sum;
+    public static int money = 50; // Default starting money
+    public static int money2;
+
     public static void main(String[] args) {
 
-        String[] betting = {"£5", "£10", "£20"};
+        String[] betting = {"10", "5", "1"};
         // Create a frame of 600 x 300
         JFrame frame = new JFrame();
         final int FRAME_WIDTH = 600;
@@ -31,30 +35,12 @@ public class DiceViewer {
         //Define my panel and set the layout
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(3, 4));
-        int money = 50; // Default starting money
         JRadioButton high = new JRadioButton("High");
         JRadioButton low = new JRadioButton("Low");
         JRadioButton sevens = new JRadioButton("Sevens");
         JLabel balance = new JLabel("        Balance = £" + money);
         JButton button = new JButton("Throw dice");
         button.setActionCommand("throw");
-
-        class ClickListener implements ActionListener {
-
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                if ("throw".equals(event.getActionCommand())) {
-                    dice.repaint();
-                }
-                DiceViewer.die1Value = (int) (6 * Math.random() + 1);
-                DiceViewer.die2Value = (int) (6 * Math.random() + 1);
-                {
-                }
-            }
-        }
-
-        ActionListener listener = new ClickListener();
-        button.addActionListener(listener);
 
         JComboBox<String> dropBox = new JComboBox<>(betting);
         ButtonGroup group = new ButtonGroup();
@@ -66,6 +52,21 @@ public class DiceViewer {
         group.add(sevens);
         frame.pack();
         frame.setVisible(true);
+
+        class ClickListener implements ActionListener {
+
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                if ("throw".equals(event.getActionCommand())) {
+                    dice.repaint();
+                }
+                DiceViewer.die1Value = (int) (6 * Math.random() + 1);
+                DiceViewer.die2Value = (int) (6 * Math.random() + 1);
+            }
+        }
+        
+        ActionListener listener = new ClickListener();
+        button.addActionListener(listener);
 
         //Control panel giving the GUI of the game
         panel.add(high);
