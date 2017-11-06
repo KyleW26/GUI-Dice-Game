@@ -10,72 +10,85 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public abstract class DiceViewer implements ActionListener {
+public class DiceViewer {
 
-    DiceComponent dice = new DiceComponent();
-    private static JFrame frame;
-    private static JPanel panel, buttonPanel;
-    private static JButton b;
-    private static ButtonGroup bg1;
-    private static JRadioButton high, low, seven;
+    public static int die1Value;
+    public static int die2Value;
 
     public static void main(String[] args) {
-        // Create the frame, panel and button
-        frame = new JFrame();
-        panel = new JPanel();
-        b = new JButton("Throw Dice");
 
-        // Set the size of the frame, the layout
-        frame.setSize(600, 350);
-        frame.setTitle("Dice Viewer");
-        frame.setLayout(new BorderLayout(1, 1));
+        String[] betting = {"0", "10", "30", "40"};
+        // Create a frame of 600 x 300
+        JFrame frame = new JFrame();
+        final int FRAME_WIDTH = 600;
+        final int FRAME_HEIGHT = 300;
 
-        // Set the dice component
+        //Set the dice shapes
+        frame.setPreferredSize(new Dimension(300, 300));
         DiceComponent dice = new DiceComponent();
-        frame.getContentPane().setPreferredSize(new Dimension(600, 300));
-        frame.getContentPane().add(dice);
+        frame.add(dice, BorderLayout.CENTER);
 
-        b.setPreferredSize(new Dimension(100, 30));
-        frame.getContentPane().add(panel, BorderLayout.SOUTH);
-        b.setActionCommand("throw");
+        //Define my panel and set the layout
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(3, 4));
+        int money = 50; // Default starting money
+        JRadioButton high = new JRadioButton("High");
+        JRadioButton low = new JRadioButton("Low");
+        JRadioButton sevens = new JRadioButton("Sevens");
+        JLabel balance = new JLabel("               Balance = £" + money);
+        JButton throwButton = new JButton("Throw dice");
+        throwButton.setActionCommand("throw");
 
-        // Build the radio buttons and add them to a box
-        buttonPanel = new JPanel(new GridLayout(0, 1));
-        bg1 = new ButtonGroup();
-        high = new JRadioButton("High");
-        low = new JRadioButton("Low");
-        seven = new JRadioButton("Sevens");
+        class ClickListener implements ActionListener {
 
-        buttonPanel.add(high);
-        bg1.add(high);
-        high.setMnemonic(KeyEvent.VK_A);
-        high.addActionListener(this);
-
-        buttonPanel.add(low);
-        bg1.add(low);
-        low.addActionListener(this);
-
-        buttonPanel.add(seven);
-        bg1.add(seven);
-        seven.addActionListener(this);
-
-        panel.add(buttonPanel);
-        panel.add(b);
-        b.setEnabled(false);
-
-        frame.setVisible(
-                true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        }
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (low.isSelected() || high.isSelected() || seven.isSelected()) {
-            b.setEnabled(true);
-            if ("throw".equals(e.getActionCommand())) {
-                dice.repaint();
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                if ("throw".equals(event.getActionCommand())) {
+                    dice.repaint();
+                }
+                DiceViewer.die1Value = (int) (6 * Math.random() + 1);
+                DiceViewer.die2Value = (int) (6 * Math.random() + 1);
+                {
+                }
             }
         }
-    }
-}
 
+        ActionListener listener = new ClickListener();
+        throwButton.addActionListener(listener);
+
+        JComboBox<String> dropBox = new JComboBox<>(betting);
+        ButtonGroup group = new ButtonGroup();
+        high.setSelected(true);
+        low.setSelected(true);
+        sevens.setSelected(true);
+
+        group.add(high);
+        group.add(low);
+        group.add(sevens);
+        frame.pack();
+        frame.setVisible(true);
+
+        //Control panel giving the GUI of the game
+        panel.add(high);
+        panel.add(new JPanel());
+        panel.add(new JPanel());
+        panel.add(new JPanel());
+        panel.add(low);
+        panel.add(dropBox);
+        panel.add(balance);
+        panel.add(throwButton);
+        panel.add(sevens);
+        panel.add(new JPanel());
+        panel.add(new JPanel());
+        panel.add(new JPanel());
+        frame.add(panel, BorderLayout.SOUTH);
+
+        //Add frame
+        frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
+        frame.setTitle("High Low - v1.6");
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+    }
+
+}
