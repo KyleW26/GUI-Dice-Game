@@ -4,14 +4,12 @@
 *   Assignment 2 - Create a simple GUI Dice Game
  */
 package gui.dice.game;
-
 import java.awt.*;
 import java.awt.geom.*;
 import javax.swing.*;
 
 public class DiceFace {
     // Holds the seven possible dot positions on a standard die
-
     private Ellipse2D.Double[] dots = new Ellipse2D.Double[7];
 
     private Rectangle box;
@@ -20,20 +18,18 @@ public class DiceFace {
     private int size;
     public int diceValue;
     private Color colour = Color.BLACK;
-
-    public DiceFace(int size, int x, int y, int faceVal, Color color) {
-        this(size, x, y, faceVal);
-        this.colour = color;
-    }
-
-    public DiceFace(int size, int x, int y, int faceVal) {
+    
+    public DiceFace(int size, int x, int y, int faceVal, Color color) 
+    {
         this.size = size; // dimension of dice face
         xLeft = x; // position
         yTop = y; // position
         diceValue = faceVal; // pip value
+        this.colour = color;
     }
 
-    public void setDiceFace(int v) {
+    public void setDiceFace(int v) 
+    {
         diceValue = v;
     }
 
@@ -44,7 +40,7 @@ public class DiceFace {
         // Black background
         g2.setColor(colour);
         g2.fill(box);
-
+        
         // White dots on black
         g2.setColor(Color.WHITE);
 
