@@ -17,7 +17,7 @@ public class DiceViewer {
 
     public static void main(String[] args) {
 
-        String[] betting = {"0", "10", "30", "40"};
+        String[] betting = {"£5", "£10", "£20"};
         // Create a frame of 600 x 300
         JFrame frame = new JFrame();
         final int FRAME_WIDTH = 600;
@@ -35,9 +35,9 @@ public class DiceViewer {
         JRadioButton high = new JRadioButton("High");
         JRadioButton low = new JRadioButton("Low");
         JRadioButton sevens = new JRadioButton("Sevens");
-        JLabel balance = new JLabel("               Balance = £" + money);
-        JButton throwButton = new JButton("Throw dice");
-        throwButton.setActionCommand("throw");
+        JLabel balance = new JLabel("        Balance = £" + money);
+        JButton button = new JButton("Throw dice");
+        button.setActionCommand("throw");
 
         class ClickListener implements ActionListener {
 
@@ -54,14 +54,13 @@ public class DiceViewer {
         }
 
         ActionListener listener = new ClickListener();
-        throwButton.addActionListener(listener);
+        button.addActionListener(listener);
 
         JComboBox<String> dropBox = new JComboBox<>(betting);
         ButtonGroup group = new ButtonGroup();
         high.setSelected(true);
         low.setSelected(true);
         sevens.setSelected(true);
-
         group.add(high);
         group.add(low);
         group.add(sevens);
@@ -76,7 +75,7 @@ public class DiceViewer {
         panel.add(low);
         panel.add(dropBox);
         panel.add(balance);
-        panel.add(throwButton);
+        panel.add(button);
         panel.add(sevens);
         panel.add(new JPanel());
         panel.add(new JPanel());
