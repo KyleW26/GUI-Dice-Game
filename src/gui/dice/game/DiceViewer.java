@@ -10,13 +10,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class DiceViewer {
+public abstract class DiceViewer implements ActionListener {
+
+    DiceComponent dice = new DiceComponent();
+    private static JFrame frame;
+    private static JPanel panel, buttonPanel;
+    private static JButton b;
+    private static ButtonGroup bg1;
+    private static JRadioButton high, low, seven;
 
     public static void main(String[] args) {
         // Create the frame, panel and button
-        JFrame frame = new JFrame();
-        JPanel panel = new JPanel();
-        JButton b = new JButton("Throw Dice");
+        frame = new JFrame();
+        panel = new JPanel();
+        b = new JButton("Throw Dice");
 
         // Set the size of the frame, the layout
         frame.setSize(600, 350);
@@ -29,35 +36,46 @@ public class DiceViewer {
         frame.getContentPane().add(dice);
 
         b.setPreferredSize(new Dimension(100, 30));
-        panel.add(b);
         frame.getContentPane().add(panel, BorderLayout.SOUTH);
         b.setActionCommand("throw");
 
-        b.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if ("throw".equals(e.getActionCommand())) {
-                    dice.repaint();
-                }
-            }
-        });
-
         // Build the radio buttons and add them to a box
-        Box box1 = Box.createVerticalBox();
-        ButtonGroup bg = new ButtonGroup();
-        JRadioButton high = new JRadioButton("High");
-        JRadioButton low = new JRadioButton("Low");
-        JRadioButton seven = new JRadioButton("Sevens");
-        bg.add(high);
-        box1.add(high);
-        bg.add(low);
-        box1.add(low);
-        bg.add(seven);
-        box1.add(seven);
-        panel.add(box1);
+        buttonPanel = new JPanel(new GridLayout(0, 1));
+        bg1 = new ButtonGroup();
+        high = new JRadioButton("High");
+        low = new JRadioButton("Low");
+        seven = new JRadioButton("Sevens");
 
-        frame.setVisible(true);
+        buttonPanel.add(high);
+        bg1.add(high);
+        high.setMnemonic(KeyEvent.VK_A);
+        high.addActionListener(this);
+
+        buttonPanel.add(low);
+        bg1.add(low);
+        low.addActionListener(this);
+
+        buttonPanel.add(seven);
+        bg1.add(seven);
+        seven.addActionListener(this);
+
+        panel.add(buttonPanel);
+        panel.add(b);
+        b.setEnabled(false);
+
+        frame.setVisible(
+                true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
 
+        }
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (low.isSelected() || high.isSelected() || seven.isSelected()) {
+            b.setEnabled(true);
+            if ("throw".equals(e.getActionCommand())) {
+                dice.repaint();
+            }
+        }
+    }
 }
+
